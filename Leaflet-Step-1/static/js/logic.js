@@ -26,7 +26,7 @@ function createFeatures(earthquakeData) {
 
 
   // Array for our circles
-  var cicleArray = new Array();
+  var circleArray = new Array();
 
   // loop through data to pull data we need
   for (var i = 0; i < earthquakeData.length; i++) {
@@ -51,22 +51,26 @@ function createFeatures(earthquakeData) {
       color = "#e76818";
     }
 
-  // Define a function we want to run once for each feature in the features array
-  // Give each feature a popup describing the place and time of the earthquake
-  function onEachFeature(feature, layer) {
-    layer.bindPopup("<h3>" + feature.properties.place +
-      "</h3><hr><p>" + new Date(feature.properties.time) + "</p>");
-  }
 
+    // Add circles to map
+    var myCircle = L.circle(coordinates, {
+        fillOpacity: .75,
+        color: color,
+        fillColor: color,
+        radius: (prperties.mag * 1500)
+    }).bindPopup("<h1>" + properties.place + "</h1> <hr> <h3>Magnitud: " + properties.mag.toFixed(2) + "</h3>";
+    // Add circle to array
+    circleArray.push(myCircle);
+}
   // Create a GeoJSON layer containing the features array on the earthquakeData object
   // Run the onEachFeature function once for each piece of data in the array
   var earthquakes = L.geoJSON(earthquakeData, {
     onEachFeature: onEachFeature
   });
 
-  // Sending our earthquakes layer to the createMap function
-  createMap(earthquakes);
-}
+  // Create layer for circles
+  var earthquakes = L.layerGroup(circleArray);
+
 
   // Define a baseMaps object to hold our base layers
   var baseMaps = {
