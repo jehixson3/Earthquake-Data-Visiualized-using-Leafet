@@ -19,7 +19,7 @@ var queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_we
 d3.json(queryUrl, function(response) {
 
       var features = response.features;
-});
+
     console.log(features)
 
   // loop through data to pull data we need
@@ -65,13 +65,12 @@ d3.json(queryUrl, function(response) {
                         div.innerHTML +=  '<i style="background:' + 
                         color[i] + 
                         '"></i>' +
-                        grades[i] +(grades[i + 1]? + '&ndash;' + grades[i + 1] + '<br> : "+");
-                }   
+                        grades[i] + (grades[i + 1]? + '&ndash;' + grades[i + 1] + '<br>' : '+');
+                    }   
 
   	            return div;
                 };
 
           //Add the legend by default
-          legend.addTo(myMap)
-
+          legend.addTo(myMap);
 });
