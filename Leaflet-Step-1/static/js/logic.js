@@ -27,31 +27,29 @@ d3.json(queryUrl, function(response) {
       var geometry = features[i].geometry;
 
           var color = "#d7191c";
-          var mag = features[i].properties.mag;
-
-          if (properties.mag < 1) {
+          if (features[i].properties.mag < 1) {
           color = "#00ccbc";
           }
-          else if (properties.mag < 2) {
+          else if (features[i].properties.mag < 2) {
           color = "#90eb9d";
           }
-          else if (properties.mag < 3) {
+          else if (features[i].properties.mag < 3) {
           color = "#f9d057";
           }
-          else if (properties.mag < 4) {
+          else if (features[i].properties.mag < 4) {
           color = "#f29e2e";
           }
-          else if (properties.mag < 5) {
+          else if (features[i].properties.mag < 5) {
           color = "#e76818";
           }
 
     // Add circles to map
-          L.circle([geometry.coordinates[1], ggeometry.coordinates[0]], {
+          L.circle([geometry.coordinates[1], geometry.coordinates[0]], {
               fillOpacity: .75,
               color: color,
               fillColor: color,
-              radius: (properties.mag * 15000)
-              }).bindPopup("<h2>" + features[i].properties.place + "</h2> <hr> <h3>Magnitude: " + properties.mag.toFixed(2) + "</h3>").add(myMap);
+              radius: (features[i].properties.mag * 15000)
+              }).bindPopup("<h2>" + features[i].properties.place + "</h2> <hr> <h3>Magnitude: " + features[i].properties.mag.toFixed(2) + "</h3>").addTo(myMap);
       }
 
       // Create legend
