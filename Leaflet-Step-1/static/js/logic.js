@@ -7,13 +7,19 @@ d3.json(queryUrl, function(data) {
   createFeatures(data.features);
 });
 
-  function createFeatures(earthquakeData) {
-    var earthquake = L.geoJSON(earthquakeData, {
-      onEachFeature: function(feature, layer) {
-      layer.bindPopup("<h3>" + feature[i].properties.place + "</h3> <hr> <h3>Magnitude: " + feature[i].properties.mag.toFixed(2) + "</h3>").addTo(myMap);
-    },
-
-  // loop through data to pull data we need
+function createFeatures(earthquakeData) {
+// Define a function to run once for each feature in features array
+// Give each pop up to describe place ands magnitude
+   function onEachFeature(feature, layer) {
+      layer.bindPopup("<h3>" + feature.properties.place + 
+      "</h3> <hr> <h3>Magnitude: " + feature.properties.mag.toFixed(2) + "</h3>");
+    }
+// Create Geojson layer containing features array on the earthquaker object
+// Run the onEachFeature funcetion once for each peice of information in the array
+var earthquakes = L.geoJSON(earthquakeData, {
+  onEachFeature: onEachFeature
+});
+// loop through data to pull data we need
       for (var i = 0; i < feature.length; i++) {
       var geometry = features[i].geometry;
           L.circle([geometry.coordinates[1], geometry.coordinates[0]], {
@@ -41,13 +47,12 @@ d3.json(queryUrl, function(data) {
           color = "#e76818";
           }
           // Define streetmap and darkmap layers
-        var streetmap = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
+      var streetmap = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
           attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
           maxZoom: 18,
           id: "mapbox.streets",
           accessToken: API_KEY
         });
-       // Define streetmap and darkmap layers
        var darkmap = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
               attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
               maxZoom: 18,
@@ -83,15 +88,14 @@ var myMap = L.map("map", {
 L.control.layers(baseMaps, overlayMaps, {
   collapsed: false
 }).addTo(myMap);
-}
 
-    // Add circles to map
-          L.circle([geometry.coordinates[1], geometry.coordinates[0]], {
-              fillOpacity: .75,
-              color: color,
-              fillColor: color,
-              radius: (features[i].properties.mag * 1500)
-              }).bindPopup("<h3>" + features[i].properties.place + "</h3> <hr> <h3>Magnitude: " + features[i].properties.mag.toFixed(2) + "</h3>").addTo(myMap);
+// Add circles to map
+    L.circle([geometry.coordinates[1], geometry.coordinates[0]], {
+          fillOpacity: .75,
+          color: color,
+          fillColor: color,
+          radius: (features[i].properties.mag * 1500)
+          }).bindPopup("<h3>" + features[i].properties.place + "</h3> <hr> <h3>Magnitude: " + features[i].properties.mag.toFixed(2) + "</h3>").addTo(myMap);
       },
 
       // Create legend
