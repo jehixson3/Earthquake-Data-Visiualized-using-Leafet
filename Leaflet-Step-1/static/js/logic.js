@@ -9,6 +9,11 @@ d3.json(queryUrl, function(data) {
 
 function createFeatures(earthquakeData) {
 
+  // Create array to replace markers with circles
+  var cicleArray = new Array();
+
+  // Loop through the data
+  
   // Define a function to run once for each feature in features array
   // Give each pop up to describe place ands magnitude
   function onEachFeature(feature, layer) {
@@ -27,7 +32,7 @@ function createFeatures(earthquakeData) {
 }
 
 function createMap(earthquakes) {
-  // Define streetmap and satellite layer
+  // Define layers
   var lightmap = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
     attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Imagery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
     maxZoom: 18,
@@ -82,3 +87,24 @@ function createMap(earthquakes) {
     collapsed: false
   }).addTo(myMap);
 }
+// Color function
+function chooseColor(magnitude) {
+  if (magnitude < 1) {
+    return "green"
+  }
+  else if (magnitude < 2) {
+    return "lightgreen"
+  }
+  else if (magnitude < 3) {
+    return "yellow"
+  }
+  else if (magnitude < 4) {
+    return "orange"
+  }
+  else if (magnitude < 5 ) {
+    return "orangered"
+  }
+  else if (magnitude > 5) {
+    return "red"
+  }
+  };
